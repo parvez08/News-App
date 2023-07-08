@@ -1,4 +1,4 @@
-package com.droid.smart_staff.newsapp.home.fragments
+package com.droid.smart_staff.newsapp.news.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -9,18 +9,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.droid.smart_staff.newsapp.blogs.adapters.BlogsAdapter
-import com.droid.smart_staff.newsapp.blogs.adapters.OnBlogsSelectedListenerCallback
+import com.droid.smart_staff.newsapp.news.adapters.NewsAdapter
+import com.droid.smart_staff.newsapp.news.adapters.OnNewsSelectedListenerCallback
 import com.droid.smart_staff.newsapp.news.models.NewsDataItem
 import com.droid.smart_staff.newsapp.news.utils.NewsViewModel
-import com.example.newsapp.databinding.FragmentBlogsBinding
+import com.example.newsapp.databinding.FragmentNewsBinding
 
-
-class BlogsFragment : Fragment() {
-    private lateinit var binding: FragmentBlogsBinding
+class NewsFragment : Fragment() {
+    private lateinit var binding: FragmentNewsBinding
     private var newsList: ArrayList<NewsDataItem> = arrayListOf()
-    private lateinit var mNewsAdapter: BlogsAdapter
+    private lateinit var mNewsAdapter: NewsAdapter
     private val newsViewModel: NewsViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -31,18 +31,18 @@ class BlogsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = FragmentBlogsBinding.inflate(layoutInflater).also { binding = it }.root
+    ) = FragmentNewsBinding.inflate(layoutInflater).also { binding = it }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         newsLiveDataObserver()
         bookmarkLiveDataObserver()
         binding.pullToRefresh.isRefreshing = true
-        newsViewModel.fetchBlogs()
+        newsViewModel.fetchNews()
         setUpRecyclerView()
         binding.pullToRefresh.setOnRefreshListener {
             binding.pullToRefresh.isRefreshing = true
-            newsViewModel.fetchBlogs()
+            newsViewModel.fetchNews()
         }
     }
 
@@ -57,7 +57,7 @@ class BlogsFragment : Fragment() {
     }
 
     private fun newsLiveDataObserver() {
-        newsViewModel.getBlogsLiveData().observe(viewLifecycleOwner) {
+        newsViewModel.getNewsLiveData().observe(viewLifecycleOwner) {
             binding.pullToRefresh.isRefreshing = false
             if (!it.success) return@observe
             if (it.data?.data == null) return@observe
@@ -67,13 +67,14 @@ class BlogsFragment : Fragment() {
     }
 
     private fun setUpRecyclerView() {
-        mNewsAdapter = BlogsAdapter(
+        mNewsAdapter = NewsAdapter(
             newsList,
             requireContext(),
-            object : OnBlogsSelectedListenerCallback {
+            object : OnNewsSelectedListenerCallback {
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onSelected(position: Int) {
                     binding.pullToRefresh.isRefreshing = true
-                    newsViewModel.fetchBookmarkStatus(position, "blog")
+                    newsViewModel.fetchBookmarkStatus(position, "news")
                 }
 
             })
@@ -85,11 +86,11 @@ class BlogsFragment : Fragment() {
     }
 
     companion object {
-        val TAG2: String? = BlogsFragment::class.java.canonicalName
+        val TAG2: String? = NewsFragment::class.java.canonicalName
 
         @JvmStatic
         fun newInstance() =
-            BlogsFragment().apply {
+            NewsFragment().apply {
                 arguments = Bundle().apply {
 
                 }
