@@ -3,8 +3,8 @@ package com.droid.smart_staff.newsapp.home
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.droid.smart_staff.newsapp.home.fragments.BlogsFragment
-import com.droid.smart_staff.newsapp.home.fragments.NewsFragment
+import com.droid.smart_staff.newsapp.blogs.fragments.BlogsFragment
+import com.droid.smart_staff.newsapp.news.fragments.NewsFragment
 import com.example.newsapp.R
 import com.example.newsapp.databinding.ActivityHomeBinding
 
