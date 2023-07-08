@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/bnv_home"
+        android:id="@+id/bnv_news"
         android:icon="@drawable/ic_news_logo"
         android:title="@string/news" />
 
     <item
-        android:id="@+id/bnv_pay"
+        android:id="@+id/bnv_blogs"
         android:icon="@drawable/ic_blogs_logo"
         android:title="@string/blogs" />
 
