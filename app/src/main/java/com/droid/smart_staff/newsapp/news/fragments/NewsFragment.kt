@@ -1,4 +1,4 @@
-package com.droid.smart_staff.newsapp.home.fragments
+package com.droid.smart_staff.newsapp.news.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
