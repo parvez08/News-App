@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">News App</string>
+    <string name="app_name">News</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="news">News</string>
+    <string name="blogs">Blogs</string>
+    <string name="twitter_cro_defends_tweet_reading_limit_find_out_what_she_said_clearing_the_air_compating_pollution">Twitter CRO defends tweet-reading limit, find out what she said. Clearing the Air: Compating pollution</string>
+    <string name="air_pollution">Air Pollution</string>
+    <string name="twitter">Twitter</string>
+    <string name="twitter_cro_defends_tweet_reading_limit_find_out_what_she_said">Twitter CRO defends tweet-reading limit, find out what she said.</string>
+    <string name="smart_staff_news">Smart Staff News</string>
 </resources>
