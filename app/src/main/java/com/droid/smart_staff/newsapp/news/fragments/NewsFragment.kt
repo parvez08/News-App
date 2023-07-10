@@ -1,6 +1,7 @@
 package com.droid.smart_staff.newsapp.news.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,16 +11,21 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.droid.smart_staff.newsapp.news.adapters.NewsAdapter
+import com.droid.smart_staff.newsapp.news.adapters.NewsBinder
 import com.droid.smart_staff.newsapp.news.adapters.OnNewsSelectedListenerCallback
 import com.droid.smart_staff.newsapp.news.models.NewsDataItem
 import com.droid.smart_staff.newsapp.news.utils.NewsViewModel
+import com.droid.smart_staff.newsapp.utils.GenericRVRowBindingViewHolder
+import com.droid.smart_staff.newsapp.utils.GenericRecyclerViewAdapter
 import com.example.newsapp.databinding.FragmentNewsBinding
+import com.example.newsapp.databinding.RowNewsItemBindingBinding
 
 class NewsFragment : Fragment() {
     private lateinit var binding: FragmentNewsBinding
     private var newsList: ArrayList<NewsDataItem> = arrayListOf()
     private lateinit var mNewsAdapter: NewsAdapter
     private val newsViewModel: NewsViewModel by viewModels()
+    private lateinit var newsAdapter: GenericRecyclerViewAdapter<NewsDataItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +50,34 @@ class NewsFragment : Fragment() {
             binding.pullToRefresh.isRefreshing = true
             newsViewModel.fetchNews()
         }
+        newsAdapter = object : GenericRecyclerViewAdapter<NewsDataItem>(requireContext()) {
+            override fun getViewHolder(
+                context: Context?,
+                parentView: ViewGroup?,
+                itemViewType: Int
+            ): GenericRVRowBindingViewHolder<*> {
+                RowNewsItemBindingBinding.inflate(layoutInflater).let {
+                    return GenericRVRowBindingViewHolder(
+                        it.root,
+                        it
+                    )
+                }
+            }
+
+            override fun onBindViewHolder(holder: GenericRVRowBindingViewHolder<*>, position: Int) {
+                val rowBinding = holder.binding as RowNewsItemBindingBinding
+                val rowData = getItem(position)
+                NewsBinder.bindNewsData(rowBinding, rowData)
+            }
+
+        }
+        binding.rvNews.adapter = newsAdapter
+        binding.rvNews.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
